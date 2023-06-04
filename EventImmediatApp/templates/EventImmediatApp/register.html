@@ -1,0 +1,20 @@
+{% extends 'EventImmediatApp/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body d-flex justify-content-center">
+      <form method="post">
+        {% csrf_token %}
+        <div class="d-flex justify-content-center"><h1><strong>Sign In</strong></h1></div><br>
+        <p>Username : </p>{{ form.username }}<br><br>
+        <p>Email : </p>{{ form.email }}<br><br>
+        <p>First Name : </p>{{ form.first_name }}<br><br>
+        <p>Last Name : </p>{{ form.last_name }}<br><br>
+        <p>Password : </p>{{ form.password1 }}<br><br>
+        <p>Password confirmation : </p>{{ form.password2 }}<br><br>
+        <div class="d-flex justify-content-center"><button class="btn btn-primary w-100" type="submit">Sign in</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

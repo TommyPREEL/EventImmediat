@@ -1,0 +1,30 @@
+{% extends "EventImmediatApp/base.html" %}
+
+{% block content %}
+    <div>
+        <div class="row">
+        {% if events_participants.count != 0 %}
+            {% for events in events_participants %}
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card mb-2" style="width: 21rem;">
+                        <a class="card-link" href="{% url 'EventImmediatApp:events_details' events.event.id_events %}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{events.event.title}} | {{events.event.status}}</h5>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">By {{ events.event.creator }}</h6>
+                                <p class="card-text">{{ events.event.description }}</p>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">From : {{ events.event.date_start }}</h2>
+                                <h6 class="card-subtitle mb-2 text-body-secondary">To : {{ events.event.date_end }}</h2>    
+                                <div class="d-flex justify-content-center">
+                                    <a class="card-edit btn btn-danger" href="{% url 'EventImmediatApp:events_cancel' events.event.id_events %}">Cancel participation <i class="bi bi-x"></i></a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Any event found.</p>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

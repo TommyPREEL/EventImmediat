@@ -1,0 +1,20 @@
+{% extends "EventImmediatApp/base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 26rem;">
+        <div class="card-body d-flex justify-content-center">
+            <form method="post">
+                {% csrf_token %}
+                <h1 class="d-flex justify-content-center"><b>Create an event</b></h1>
+                <p>Title :</p>{{ form.title }}<br><br>
+                <p>Description :</p>{{ form.description }}<br><br>
+                <p>Status :</p>{{ form.status }}<br><br>
+                <p>Date start :</p>{{ form.date_start }}<br><br>
+                <p>Date end :</p>{{ form.date_end }}<br><br>
+                <button class="btn btn-success w-100" type="submit">Create event</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

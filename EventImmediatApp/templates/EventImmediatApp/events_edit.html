@@ -1,0 +1,23 @@
+{% extends "EventImmediatApp/base.html" %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width: 26rem;">
+            <div class="card-body d-flex justify-content-center">
+                <form method="post">
+                    {% csrf_token %}
+                    <h1 class="d-flex justify-content-center"><b>Edit an event</b></h1>
+                    <p>Title : {{ form.instance.title }}</p>{{ form.title }}<br><br>
+                    <p>Description : {{ form.instance.description }}</p>{{ form.description }}<br><br>
+                    <p>Status : {{ form.instance.status }}</p>{{ form.status }}<br><br>
+                    <p>Date start : {{ form.instance.date_start }}</p>{{ form.date_start }}<br><br>
+                    <p>Date end : {{ form.instance.date_end }}</p>{{ form.date_end }}<br><br>
+                    <div>
+                        <a class="card-edit btn btn-danger" href="{% url 'EventImmediatApp:events_details' event.id_events %}">Cancel update <i class="bi bi-x"></i></a>
+                        <button class="btn btn-success w-100" type="submit">Update event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

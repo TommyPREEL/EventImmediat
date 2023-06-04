@@ -1,0 +1,38 @@
+{% extends "EventImmediatApp/base.html" %}
+
+{% block content %}
+    {% if user.is_superuser or user.is_staff %}
+        <a class="btn btn-success mb-2" href="{% url 'EventImmediatApp:events_create' %}"><i class="bi bi-plus"></i> Create an event</a>
+    {% endif %}
+    <div>
+        <div class="row">
+        {% for event in events %}
+            <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center">
+                <div class="card mb-2" style="width: 21rem;">
+                    <a class="card-link" href="{% url 'EventImmediatApp:events_details' event.id_events %}">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            {% if event.is_joined %}
+                            <div class="d-flex justify-content-end">
+                                <h6 class="text-success"><strong><i class="bi bi-check-lg"></i> Already joined !</strong></h6>
+                            </div>
+                            {% endif %}
+                            <h5 class="card-title">{{event.title}} | {{event.status}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">By {{ event.creator }}</h6>
+                            <p class="card-text">{{ event.description }}</p>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">From : {{ event.date_start }}</h2>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">To : {{ event.date_end }}</h2>  
+                            <a class="btn btn-success d-flex align-self-center m-2" href="{% url 'EventImmediatApp:events_details' event.id_events %}">More information</a>  
+                            {% if event.creator_id == user.id  or user.is_superuser %}
+                                <div class="d-flex justify-content-center">
+                                    <a class="card-edit d-flex align-self-center btn btn-primary m-2" href="{% url 'EventImmediatApp:events_edit' event.id_events %}">Edit event <i class="bi bi-pencil-fill"></i></a>
+                                    <a class="card-delete d-flex align-self-center btn btn-danger m-2" href="{% url 'EventImmediatApp:events_delete' event.id_events %}">Delete event <i class="bi bi-trash-fill"></i></a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
