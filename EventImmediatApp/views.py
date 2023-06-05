@@ -26,6 +26,7 @@ def events_list(request):
     return render(request, 'EventImmediatApp/events_list.html', {'events':events, 'active_page': active_page})
 
 # Function to render the event creation form
+# If a standard user (authenticated or not) try to access to the event creation, he will be redirected
 def events_create(request):
     if request.user.is_authenticated and (request.user.is_superuser or request.user.is_staff):
         active_page = 'events'
@@ -42,6 +43,9 @@ def events_create(request):
     else:
         return redirect(request, 'EventImmediatApp:events_list')
 
+# Function to render the event details page
+# If the user is logged in, he can participate to the event
+# If the user is the admin or owner of this event, he can see the participants list (and manage his event)
 def events_details(request, id):
     active_page = 'events'
     event = get_object_or_404(Events, id_events=id)
@@ -55,12 +59,15 @@ def events_details(request, id):
     else:
         return render(request, 'EventImmediatApp/events_details.html', {'event': event, 'active_page': active_page})
 
+# Function to delete an event if the user is an admin or if it's his own event
 def events_delete(request, id):
     event = get_object_or_404(Events, id_events=id)
     if request.user.is_authenticated and ((request.user.is_staff and request.user.id == event.creator_id) or request.user.is_superuser):
         event.delete()
     return redirect('EventImmediatApp:events_list')
 
+# Function to render the event details page
+# If the user is the admin or owner of this event, he can edit the event
 def events_edit(request, id):
     active_page = 'events'
     event = get_object_or_404(Events, id_events=id)
@@ -75,25 +82,37 @@ def events_edit(request, id):
         return render(request, 'EventImmediatApp/events_edit.html', {'form': form, 'active_page': active_page, 'event': event})
     else:
         return redirect('EventImmediatApp:events_list')
-    
+
+# Function to join an event
+# If the user is not logged in, he will be redirected
 def events_join(request, id):
-    event = get_object_or_404(Events, id_events=id)
-    is_participant = EventsParticipants.objects.filter(event=event, user=request.user).exists()
-    if not is_participant:
-        EventsParticipants.objects.create(event=event, user=request.user)
+    if request.user.is_authenticated:
+        event = get_object_or_404(Events, id_events=id)
+        is_participant = EventsParticipants.objects.filter(event=event, user=request.user).exists()
+        if not is_participant:
+            EventsParticipants.objects.create(event=event, user=request.user)
     return redirect('EventImmediatApp:events_details', id)
 
+# Function to join an event
+# If the user is not logged in, he will be redirected
 def events_me(request):
-    active_page = 'my_events'
-    events_participants = EventsParticipants.objects.filter(user=request.user).order_by('-event')
-    return render(request, 'EventImmediatApp/events_me.html', {'events_participants':events_participants, 'active_page': active_page})
+    if request.user.is_authenticated:
+        active_page = 'my_events'
+        events_participants = EventsParticipants.objects.filter(user=request.user).order_by('-event')
+        return render(request, 'EventImmediatApp/events_me.html', {'events_participants':events_participants, 'active_page': active_page})
+    return redirect('EventImmediatApp:events_list')
 
+# Function to cancel the participation of the logged user to an event
+# If the user is not logged in, he will be redirected
 def events_cancel(request, id):
-    event_participant = get_object_or_404(EventsParticipants, event_id=id, user_id=request.user)
-    event_participant.delete()
+    if request.user.is_authenticated:
+        event_participant = get_object_or_404(EventsParticipants, event_id=id, user_id=request.user)
+        event_participant.delete()
     return redirect('EventImmediatApp:events_details', id)
 
-
+# Function to display the registry page
+# If the user is logged in, he will be redirected
+# If the form is invalid, an error will be displayed
 def register(request):
     if not request.user.is_authenticated: 
         active_page = 'sign_in'
@@ -107,13 +126,16 @@ def register(request):
                 login(request, user)
                 return redirect('EventImmediatApp:events_list')
             else:
-                return render(request, 'EventImmediatApp/register.html', {'form': form, 'active_page': active_page})
+                return render(request, 'EventImmediatApp/register.html', {'form': form, 'active_page': active_page, 'error': 'An error has been occurred, try to change your password or username'})
         else:
             form = RegisterForm()
         return render(request, 'EventImmediatApp/register.html', {'form':form, 'active_page': active_page})
     else:
         return redirect('EventImmediatApp:events_list')
 
+# Function to display the connection page
+# If the user is logged in, he will be redirected
+# If the form is invalid, an error will be displayed
 def connection(request):
     if not request.user.is_authenticated: 
         active_page = 'log_in'
@@ -133,7 +155,9 @@ def connection(request):
             return render(request, 'EventImmediatApp/login.html', {'form': form, 'active_page': active_page})
     else:
         return redirect('EventImmediatApp:events_list')
-    
+
+# Function to disconnect the current authenticated user
+# If the user is not logged in, he will be redirected
 def disconnection(request):
     if request.user.is_authenticated: 
         logout(request)

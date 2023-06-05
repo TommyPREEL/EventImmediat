@@ -31,8 +31,7 @@ print(get_random_secret_key())
 ```
 ### The generated key is the new secret key for the application
 
-### 7 - Create a file named ".env" in the same repository that manage.py, requirements.txt, README.md
-... then configure the .env file with this example : 
+### 7 - Create a file named ".env" in the same repository that manage.py, requirements.txt, README.md... then configure the ".env" file with this example : 
 ```
 SECRET_KEY=
 DB_NAME=event_immediat
@@ -76,7 +75,8 @@ python manage.py runserver
 ### - Cancel his participation to an event
 
 # Staff
-## Has the same permissions that a logged in user 
+## Has the same permissions that a logged in user
+### A user in a staff if in the database, the value of the column is_staff = 1 (should be done directly in the database) 
 ### Can : 
 ### - Create a new event
 ### - Edit his own events
@@ -85,6 +85,7 @@ python manage.py runserver
 
 # Admin
 ## Has the same permissions that a staff
+### A user in an admin if in the database, the value of the column is_superuser = 1
 ### Can :
 ### - Edit/delete all events
 ### - See the participants list of all events
