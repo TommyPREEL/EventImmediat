@@ -76,7 +76,7 @@ python manage.py runserver
 
 # Staff
 ## Has the same permissions that a logged in user
-### A user in a staff if in the database, the value of the column is_staff = 1 (should be done directly in the database) 
+### A user in a staff if in the database, the value of the column is_staff = 1 (should be update directly in the database) 
 ### Can : 
 ### - Create a new event
 ### - Edit his own events
