@@ -39,10 +39,10 @@ DB_NAME=event_immediat
 DB_USER=root
 DB_PASS=
 ```
-SECRET_KEY is the new secret key
-DB_NAME is the database name
-DB_USER is the admin user of your web server
-DB_PASS is the admin password of your web server
+### SECRET_KEY is the new secret key
+### DB_NAME is the database name
+### DB_USER is the admin user of your web server
+### DB_PASS is the admin password of your web server
 
 ### 8 - Do a migration
 ```
