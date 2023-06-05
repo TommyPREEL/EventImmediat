@@ -8,7 +8,7 @@
 ```
 git clone https://github.com/TommyPREEL/EventImmediat.git
 ```
-### 3 - Go inside
+### 3 - Go inside the folder with requirements.txt, manage.py etc...
 ```
 cd EventImmediat
 ```
@@ -31,14 +31,19 @@ print(get_random_secret_key())
 ```
 ### The generated key is the new secret key for the application
 
-### 7 - Create a file named.env in the same repository that manage.py, requiremeets.txt, README.md
+### 7 - Create a file named ".env" in the same repository that manage.py, requirements.txt, README.md
 ... then configure the .env file with this example : 
 ```
-SECRET_KEY=                 #the new secret key
-DB_NAME=event_immediat      #the database name
-DB_USER=root                #the admin user of your web server
-DB_PASS=                    #the admin password of your web server
+SECRET_KEY=
+DB_NAME=event_immediat
+DB_USER=root
+DB_PASS=
 ```
+### SECRET_KEY is the new secret key
+### DB_NAME is the database name
+### DB_USER is the admin user of your web server
+### DB_PASS is the admin password of your web server
+
 ### 8 - Do a migration
 ```
 python manage.py migrate
